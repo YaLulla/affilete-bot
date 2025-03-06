@@ -4,40 +4,38 @@ import logging
 import asyncio
 import uvloop
 
-# Install uvloop for faster event loop handling
-uvloop.install()
+uvloop.install()  # Optional: Enhances performance on Linux
 
-# Set up logging for debug or production purposes
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
 print("Starting...")
 
-# Load environment variables
 APP_ID = config("APP_ID", default=None, cast=int)
 API_HASH = config("API_HASH", default=None)
 SESSION = config("SESSION")
 
-# Source chats to listen to and target bot username
 FROM = [-1001391583159, -1001201589228, -1001288752850]
 TO_BOT_USERNAME = "@ExtraPeBot"
 
-# Initialize the bot client
 try:
     BotzHubUser = Client(
-        name=SESSION,
+        name="BotzHubUser",  # Unique name for the client
         api_id=APP_ID,
         api_hash=API_HASH,
         session_string=SESSION
     )
-except Exception as e:
-    print(f"ERROR - {e}")
+except Exception as ap:
+    print(f"ERROR - {ap}")
     exit(1)
+
+async def start_bot():
+    await BotzHubUser.start()
+    user = await BotzHubUser.get_me()
+    print(f"Logged in as: {user.first_name}")
+    await asyncio.Event().wait()  # Keeps the bot running
 
 @BotzHubUser.on_message(filters.chat(FROM))
 async def sender_bH(client, message):
-    """
-    Handler to forward messages from specified chats to a bot.
-    """
     try:
         await client.copy_message(
             chat_id=TO_BOT_USERNAME,
@@ -48,18 +46,7 @@ async def sender_bH(client, message):
             reply_markup=message.reply_markup
         )
     except Exception as e:
-        print(f"Error while forwarding message: {e}")
+        print(f"Error forwarding message: {e}")
 
-async def main():
-    """
-    Main entry point for the bot.
-    Starts the client and manages the event loop.
-    """
-    async with BotzHubUser:
-        user = await BotzHubUser.get_me()
-        print(f"Logged in as: {user.first_name}")
-        # Keep the bot running
-        await asyncio.Event().wait()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+# Run the bot
+asyncio.run(BotzHubUser.run(start_bot))
