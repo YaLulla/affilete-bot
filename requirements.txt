@@ -1,5 +1,5 @@
 # Pyrofork from PyPI (latest version)
-pyrofork
+PyroFork==2.2.11
 
 # Telegram encryption library (recommended for Pyrofork)
 tgcrypto
