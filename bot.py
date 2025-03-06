@@ -4,20 +4,20 @@ import logging
 import asyncio
 import uvloop
 
-# Install uvloop for improved event loop performance
+# Install uvloop for faster event loop handling
 uvloop.install()
 
-# Configure logging
+# Set up logging for debug or production purposes
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
 print("Starting...")
 
-# Load configuration variables
+# Load environment variables
 APP_ID = config("APP_ID", default=None, cast=int)
 API_HASH = config("API_HASH", default=None)
 SESSION = config("SESSION")
 
-# Chat IDs to forward messages from and bot username to forward to
+# Source chats to listen to and target bot username
 FROM = [-1001391583159, -1001201589228, -1001288752850]
 TO_BOT_USERNAME = "@ExtraPeBot"
 
@@ -29,18 +29,18 @@ try:
         api_hash=API_HASH,
         session_string=SESSION
     )
-except Exception as ap:
-    print(f"ERROR - {ap}")
+except Exception as e:
+    print(f"ERROR - {e}")
     exit(1)
 
 @BotzHubUser.on_message(filters.chat(FROM))
 async def sender_bH(client, message):
     """
-    Forward messages from specified chats to the target bot.
+    Handler to forward messages from specified chats to a bot.
     """
     try:
         await client.copy_message(
-            chat_id=TO_BOT_USERNAME, 
+            chat_id=TO_BOT_USERNAME,
             from_chat_id=message.chat.id,
             message_id=message.id,
             caption=message.caption,
@@ -52,14 +52,14 @@ async def sender_bH(client, message):
 
 async def main():
     """
-    Start the bot and handle the event loop properly.
+    Main entry point for the bot.
+    Starts the client and manages the event loop.
     """
     async with BotzHubUser:
         user = await BotzHubUser.get_me()
         print(f"Logged in as: {user.first_name}")
-        # Keep the bot running until interrupted
+        # Keep the bot running
         await asyncio.Event().wait()
 
-# Entry point
 if __name__ == "__main__":
     asyncio.run(main())
