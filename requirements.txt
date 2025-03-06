@@ -1,7 +1,7 @@
-https://codeload.github.com/KurimuzonAkuma/pyrogram/zip/refs/heads/dev
-tgcrypto
-uvloop
-python-decouple
-Flask
-gunicorn
-aiohttp
+git+https://github.com/KurimuzonAkuma/pyrogram.git@dev  # Pyrogram from GitHub (dev branch)
+tgcrypto>=1.2.3  # Optimized cryptography library for Pyrogram
+uvloop==0.17.0  # High-performance event loop
+python-decouple==3.8  # Environment variable management
+Flask>=2.2,<2.3  # Lightweight web framework
+gunicorn>=20.1.0  # Production WSGI server for Flask
+aiohttp>=3.8.1  # Asynchronous HTTP client/server
