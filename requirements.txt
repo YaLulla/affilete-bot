@@ -1,6 +1,13 @@
+# Pyrofork from PyPI (latest version)
 pyrofork
+
+# Telegram encryption library (recommended for Pyrofork)
 tgcrypto
+
+# Asyncio performance enhancer (Unix only, optional)
 uvloop
+
+# Configuration management (used in your code)
 python-decouple
 Flask
 gunicorn
