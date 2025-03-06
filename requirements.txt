@@ -1,7 +1,7 @@
-git+https://github.com/KurimuzonAkuma/pyrogram.git@dev
-tgcrypto==1.2.5
-uvloop==0.19.0
-python-decouple==3.8
-Flask>=2.2,<2.3  # Lightweight web framework
-gunicorn>=20.1.0  # Production WSGI server for Flask
-aiohttp>=3.8.1  # Asynchronous HTTP client/server
+pyrogram==2.0.106
+tgcrypto
+uvloop
+python-decouple
+Flask
+gunicorn
+aiohttp
