@@ -4,7 +4,7 @@ import logging
 import asyncio
 import uvloop
 
-uvloop.install()  # Optional: Enhances performance on Linux
+uvloop.install()
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
@@ -19,7 +19,7 @@ TO_BOT_USERNAME = "@ExtraPeBot"
 
 try:
     BotzHubUser = Client(
-        name="BotzHubUser",  # Unique name for the client
+        name="BotzHubUser",
         api_id=APP_ID,
         api_hash=API_HASH,
         session_string=SESSION
@@ -32,7 +32,7 @@ async def start_bot():
     await BotzHubUser.start()
     user = await BotzHubUser.get_me()
     print(f"Logged in as: {user.first_name}")
-    await asyncio.Event().wait()  # Keeps the bot running
+    await asyncio.Event().wait()  # Keeps the bot running indefinitely
 
 @BotzHubUser.on_message(filters.chat(FROM))
 async def sender_bH(client, message):
@@ -48,5 +48,6 @@ async def sender_bH(client, message):
     except Exception as e:
         print(f"Error forwarding message: {e}")
 
-# Run the bot
-asyncio.run(BotzHubUser.run(start_bot))
+# Properly run the bot
+if __name__ == "__main__":
+    asyncio.run(BotzHubUser.run(start_bot))
